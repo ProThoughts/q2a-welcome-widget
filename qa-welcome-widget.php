@@ -6,6 +6,48 @@
 
 class qa_welcome_widget {
 
+	public function option_default($option)
+	{
+		switch ($option) {
+			case 'qa_welcome_widget_html':
+				return '<p>ここにHTMLを書く</p>';
+			default:
+				return;
+		}
+	}
+
+	public function admin_form(&$qa_content)
+	{
+		// process the admin form if admin hit Save-Changes-button
+		$ok = null;
+		if (qa_clicked('qa_welocome_widget_save')) {
+			qa_opt('qa_welcome_widget_html', qa_post_text('qa_welcome_widget_html'));
+			$ok = qa_lang('admin/options_saved');
+		}
+
+		// form fields to display frontend for admin
+		$fields = array();
+
+		$fields[] = array(
+			'label' => qa_lang('qa_welcome_widget_lang/custom_html'),
+			'tags' => 'NAME="qa_welcome_widget_html"',
+			'value' => qa_opt('qa_welocome_widget_html'),
+			'type' => 'textarea',
+			'rows' => 20
+		);
+
+		return array(
+			'ok' => ($ok && !isset($error)) ? $ok : null,
+			'fields' => $fields,
+			'buttons' => array(
+				array(
+					'label' => qa_lang_html('main/save_button'),
+					'tags' => 'name="qa_welocome_widget_save"',
+				),
+			),
+		);
+	}
+
 	function allow_template($template)
 	{
 		return ($template === 'qa');
@@ -13,33 +55,13 @@ class qa_welcome_widget {
 
 	function allow_region($region)
 	{
-		return ($region === 'main');
+		return ($region === 'full');
 	}
 
 	function output_widget($region, $place, $themeobject, $template, $request, $qa_content)
 	{
-		$requests = explode('/', $request);
-		$tag = $requests[1];
-		$stdb = new similar_tag_db();
-		$tagstring = $stdb->get_similar_tag_words($tag);
-		if(!empty($tagstring)) {
-			$tags = qa_tagstring_to_tags($tagstring);
-
-			$themeobject->output('<div class="qa-q-item-tags"><h4>','関連タグ','</h4>');
-			$themeobject->output('<ul class="qa-q-item-tag-list">');
-			foreach ($tags as $tag) {
-				$themeobject->output('<li class="qa-q-item-tag-item">', $this->add_link($tag), '</li>');
-			}
-			$themeobject->output('</ul>');
-			$themeobject->output('</div>');
-			$themeobject->output('<div class="qa-q-item-clear"></div>');
-		}
-	}
-
-	function add_link($tag) {
-		return '<a href="' . qa_path_html('tag/'.$tag) .
-				'" class="qa-tag-link">' .
-				 qa_html($tag) . '</a>';
+		if ($place === 'low' || $place === 'bottom') return;
+		$themeobject->output($request, $region, $place);
 	}
 }
 /*
