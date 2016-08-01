@@ -92,10 +92,12 @@ class qa_welcome_widget {
 
 	function output_widget($region, $place, $themeobject, $template, $request, $qa_content)
 	{
+		$start = qa_get('start');
 		if (qa_is_logged_in()
 			|| !qa_opt('qa_welcome_widget_enabled')
 			|| $place === 'low' || $place === 'bottom'
-			|| !empty($request)) {
+			|| !empty($request)
+			|| !empty($start)) {
 			return;
 		}
 		$html = qa_opt('qa_welcome_widget_html');
