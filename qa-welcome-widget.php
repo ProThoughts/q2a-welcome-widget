@@ -92,8 +92,14 @@ class qa_welcome_widget {
 
 	function output_widget($region, $place, $themeobject, $template, $request, $qa_content)
 	{
-		if ($place === 'low' || $place === 'bottom' || !empty($request)) return;
-		$themeobject->output($request, $region, $place);
+		if (qa_is_logged_in()
+			|| !qa_opt('qa_welcome_widget_enabled')
+			|| $place === 'low' || $place === 'bottom'
+			|| !empty($request)) {
+			return;
+		}
+		$html = qa_opt('qa_welcome_widget_html');
+		$themeobject->output($html);
 	}
 }
 /*

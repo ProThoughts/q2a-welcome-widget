@@ -22,3 +22,5 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 qa_register_plugin_module('widget', 'qa-welcome-widget.php', 'qa_welcome_widget', 'Welcome Widget');
 // phrases
 qa_register_plugin_phrases('qa-welcome-widget-lang-*.php', 'qa_welcome_widget_lang');
+// layer
+qa_register_plugin_layer('qa-welcome-widget-layer.php', 'Welcome Widget Layer');
