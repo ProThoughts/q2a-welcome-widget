@@ -1,7 +1,7 @@
 <?php
 
 /*
-	Plugin Name: Welcom Widget Plugin
+	Plugin Name: Welcom Widget
 	Plugin URI:
 	Plugin Description: Welcome the new users.
 	Plugin Version: 1.0
@@ -20,3 +20,5 @@ if (!defined('QA_VERSION')) { // don't allow this page to be requested directly 
 
 // widget
 qa_register_plugin_module('widget', 'qa-welcome-widget.php', 'qa_welcome_widget', 'Welcome Widget');
+// phrases
+qa_register_plugin_phrases('qa-welcome-widget-lang-*.php', 'qa_welcome_widget_lang');
